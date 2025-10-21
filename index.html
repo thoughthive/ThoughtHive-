@@ -262,18 +262,23 @@ function renderArticles(articles) {
 }
 
 // Show full article with delete option
+
 function showFullArticle(article) {
     const articlesDiv = document.getElementById('articles');
     articlesDiv.innerHTML = '';
     const div = document.createElement('div');
     div.className = 'article-full';
-    div.innerHTML = `<h2>${article.title}</h2>
-                     <p>${article.content}</p>
-                     <p><strong>By:</strong> ${article.author}</p>
-                     ${article.imageUrl ? `<img src="${article.imageUrl}">` : ''}
-                     <button class="delete-btn" onclick="deleteArticle('${article.id}')">Delete Article</button>`;
+    div.innerHTML = `
+        <h2>${article.title}</h2>
+        <p>${article.content}</p>
+        <p><strong>By:</strong> ${article.author}</p>
+        ${article.imageUrl ? `<img src="${article.imageUrl}">` : ''}
+        <button onclick="renderArticles(allArticles)" style="margin-top:10px; background:#007bff; color:white; border:none; padding:8px 12px; border-radius:5px; cursor:pointer;">Close ✖</button>
+        <button class="delete-btn" onclick="deleteArticle('${article.id}')">Delete Article</button>
+    `;
     articlesDiv.appendChild(div);
 }
+
 
 // Delete article
 async function deleteArticle(id) {
