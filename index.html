@@ -261,14 +261,6 @@ function renderArticles(articles) {
     });
 }
 
-// Show full article with delete olet imageUrl = '';
-        let imageUrl = '';
-        if (imageFile) {
-            const storageRef = storage.ref('images/' + Date.now() + '_' + imageFile.name);
-            await storageRef.put(imageFile);
-            imageUrl = await storageRef.getDownloadURL();
-        }
-
 
 function showFullArticle(article) {
     const articlesDiv = document.getElementById('articles');
