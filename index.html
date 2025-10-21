@@ -222,7 +222,8 @@ async function postArticle() {
         if (!title || !content || !author) { alert('Fill all fields!'); return; }
 
         let imageUrl = '';
-        if (imageFile) {const allowedTypes = ['image/png','image/jpeg','image/jpg','image/gif'];
+        if (imageFile) {
+          const allowedTypes = ['image/png','image/jpeg','image/jpg','image/gif'];
         if(!allowedTypes.includes(imageFile.type)) {
             alert('Only PNG, JPG, JPEG, GIF files are allowed!');
             return;
