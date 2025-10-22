@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Article - ThoughtHive</title>
+<style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.page-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    max-width:600px;
+    margin:auto;
+}
+h1 { text-align:center; margin-bottom:20px; }
+input, textarea, button {
+    width:100%;
+    padding:10px;
+    margin-bottom:15px;
+    border-radius:10px;
+    border:none;
+    font-size:1em;
+}
+button.submit-btn { background:#007bff; color:white; cursor:pointer; font-weight:bold; }
+button.submit-btn:hover { background:#0056b3; }
+button.back-btn { background:#17a2b8; margin-bottom:20px; }
+</style>
+</head>
+<body>
+
+<div class="page-container">
+    <h1>Add New Article</h1>
+    <button class="back-btn" onclick="window.location.href='index.html'">← Back to Home</button>
+
+    <input type="text" id="article-title" placeholder="Article Title" required>
+    <textarea id="article-content" placeholder="Write your article here..." rows="6" required></textarea>
+    <input type="text" id="article-author" placeholder="Your Name" required>
+    <button class="submit-btn" onclick="postArticle()">Post Article</button>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
+    authDomain: "thoughthive-ebf0d.firebaseapp.com",
+    projectId: "thoughthive-ebf0d",
+    storageBucket: "thoughthive-ebf0d.firebasestorage.app",
+    messagingSenderId: "254009291887",
+    appId: "1:254009291887:web:b5ce7301fb673ba257499a",
+    measurementId: "G-5C2Q4SDZ3Y"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+async function postArticle() {
+    const title = document.getElementById('article-title').value;
+    const content = document.getElementById('article-content').value;
+    const author = document.getElementById('article-author').value;
+    if(!title || !content || !author){ alert('Fill all fields'); return; }
+
+    try {
+        await db.collection('articles').add({
+            title, content, author,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert('Article posted!');
+        window.location.href='index.html';
+    } catch(err){
+        alert('Error: '+err.message);
+    }
+}
+</script>
+
+</body>
+</html>
