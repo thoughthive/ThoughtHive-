@@ -1,165 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Article — ThoughtHive</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThoughtHive - Article</title>
 <style>
-  *{box-sizing:border-box}
-  body{
-    margin:0;font-family:Inter, -apple-system, "Segoe UI", Roboto, sans-serif;
-    min-height:100vh;color:#fff;
-    background: linear-gradient(180deg, rgba(9,12,16,0.6), rgba(7,9,11,0.95)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-    padding:26px;
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Poppins", sans-serif; }
+
+  body {
+    background: radial-gradient(circle at top left, #0f2027, #203a43, #2c5364);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
-  .close-x{ position:fixed; left:18px; top:18px; width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.06);border:0;color:#fff;font-size:20px; cursor:pointer;}
-  .wrap{ max-width:900px;margin:60px auto 120px; }
-  .article-card{ background: rgba(255,255,255,0.04); padding:26px; border-radius:16px; backdrop-filter: blur(12px); box-shadow:0 18px 60px rgba(0,0,0,0.6);}
-  h1{ margin:0 0 12px; font-size:1.6rem; color:#eaf6ff;}
-  .meta{ color:#dff6ff; opacity:.9; font-size:0.95rem; margin-bottom:14px; display:flex; justify-content:space-between; gap:12px; }
-  .content{ font-size:1.02rem; line-height:1.6; color:#e6f7ff; opacity:.95; }
-  .comments{ margin-top:22px; }
-  .comment{ background: rgba(255,255,255,0.06); padding:12px;border-radius:10px;margin-top:12px; color:#012; background-clip:padding-box; }
-  .comment strong{ color:#eaf6ff; display:block; margin-bottom:6px; }
-  .form-row{ margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; }
-  input[type="text"], textarea{ width:100%; padding:12px;border-radius:10px;border:0;background: rgba(255,255,255,0.06); color:#fff; outline:none; }
-  textarea{ min-height:90px; resize:vertical; }
-  .btn{ padding:10px 14px;border-radius:10px;border:0;background:rgba(255,255,255,0.12); color:#fff; cursor:pointer; font-weight:700; }
-  .btn.primary{ background:rgba(10,161,255,0.95); color:#012; }
-  .delete-btn{ background:#ff6b6b; color:#fff; }
-  @media(max-width:640px){ .wrap{ margin:20px 12px 120px } h1{font-size:1.3rem} }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    padding: 15px 25px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .back-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    font-size: 20px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+  }
+
+  .article-container {
+    max-width: 800px;
+    margin: 30px auto;
+    background: rgba(255,255,255,0.1);
+    padding: 25px;
+    border-radius: 15px;
+    backdrop-filter: blur(12px);
+  }
+
+  .article-container h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  .article-container p {
+    line-height: 1.6;
+    color: #e2e2e2;
+  }
+
+  .comment-section {
+    max-width: 800px;
+    margin: 20px auto 60px;
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(12px);
+  }
+
+  .comment-section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+  }
+
+  .comment-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    outline: none;
+  }
+
+  ::placeholder { color: #ccc; }
+
+  button {
+    background: rgba(255,255,255,0.25);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover { background: rgba(255,255,255,0.4); }
+
+  .comment-list {
+    margin-top: 20px;
+  }
+
+  .comment {
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    backdrop-filter: blur(8px);
+  }
+
+  .comment strong {
+    color: #fff;
+  }
+
+  .comment p {
+    color: #fff; /* ✅ Comment text color fixed to white */
+    margin-top: 5px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px 10px;
+    color: #aaa;
+    font-size: 0.9rem;
+  }
 </style>
 </head>
 <body>
-<button class="close-x" onclick="location.href='index.html'">✖</button>
 
-<div class="wrap">
-  <div class="article-card" id="articleCard">
-    <h1 id="title">Loading...</h1>
-    <div class="meta"><div id="author">—</div><div id="category">Category</div></div>
-    <div class="content" id="content">...</div>
+<header>
+  <button class="back-btn" onclick="window.location.href='index.html'">✖</button>
+  <h1>ThoughtHive</h1>
+</header>
 
-    <div style="margin-top:16px">
-      <button id="deleteArticleBtn" class="btn delete-btn" style="display:none;margin-top:10px">Delete Article</button>
-    </div>
-
-    <div class="comments" id="commentsSection">
-      <h3 style="margin-top:20px;color:#cfefff">Comments</h3>
-      <div id="commentsList"></div>
-
-      <div style="margin-top:14px">
-        <input id="commenterName" type="text" placeholder="Your name" />
-        <textarea id="commentText" placeholder="Write a comment..."></textarea>
-        <div style="display:flex;gap:10px;margin-top:10px">
-          <button class="btn primary" id="postCommentBtn">Post Comment</button>
-          <button class="btn" onclick="document.getElementById('commentText').value='';">Clear</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="article-container">
+  <h1 id="articleTitle">Loading...</h1>
+  <p id="articleCategory" style="font-size:0.9rem; color:#ccc; margin-bottom:10px;"></p>
+  <p id="articleContent"></p>
+  <p style="margin-top:15px; font-size:0.9rem; color:#bbb;"><strong>By:</strong> <span id="articleAuthor"></span></p>
 </div>
 
-<!-- Firebase -->
+<div class="comment-section">
+  <h2>Comments</h2>
+  <div class="comment-input">
+    <input type="text" id="commentAuthor" placeholder="Your Name">
+    <textarea id="commentText" placeholder="Write your comment..." rows="3"></textarea>
+    <button onclick="postComment()">Post Comment</button>
+  </div>
+
+  <div class="comment-list" id="commentList"></div>
+</div>
+
+<footer>
+  <p>&copy; 2025 ThoughtHive | Made with ❤️ by Divyansh</p>
+</footer>
+
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
 <script>
-  const ADMIN_NAME = "Divyansh"; // change if needed
+const firebaseConfig = {
+  apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
+  authDomain: "thoughthive-ebf0d.firebaseapp.com",
+  projectId: "thoughthive-ebf0d",
+  storageBucket: "thoughthive-ebf0d.firebasestorage.app",
+  messagingSenderId: "254009291887",
+  appId: "1:254009291887:web:b5ce7301fb673ba257499a",
+  measurementId: "G-5C2Q4SDZ3Y"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
-    authDomain: "thoughthive-ebf0d.firebaseapp.com",
-    projectId: "thoughthive-ebf0d",
-    storageBucket: "thoughthive-ebf0d.firebasestorage.app",
-    messagingSenderId: "254009291887",
-    appId: "1:254009291887:web:b5ce7301fb673ba257499a",
-    measurementId: "G-5C2Q4SDZ3Y"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+// Get article ID
+const urlParams = new URLSearchParams(window.location.search);
+const articleId = urlParams.get('id');
 
-  // read id from query
-  const params = new URLSearchParams(window.location.search);
-  const articleId = params.get('id');
-  if(!articleId){
-    // could redirect to index
-    document.getElementById('title').textContent = 'Article not found';
-  } else {
-    loadArticle();
-    loadComments();
-  }
-
-  async function loadArticle(){
-    const doc = await db.collection('articles').doc(articleId).get();
-    if(!doc.exists) { document.getElementById('title').textContent = 'Article not found'; return; }
-    const data = doc.data();
-    document.getElementById('title').textContent = data.title || 'Untitled';
-    document.getElementById('content').textContent = data.content || '';
-    document.getElementById('author').textContent = 'By: ' + (data.author || 'Unknown');
-    document.getElementById('category').textContent = data.category || 'General';
-
-    // show delete button only for admin name
-    if(data.author === ADMIN_NAME){
-      document.getElementById('deleteArticleBtn').style.display = 'inline-block';
-    } else {
-      // allow admin to delete even if author not match (optionally check localStorage)
-      if(localStorage.getItem('th_is_admin') === '1' || localStorage.getItem('th_user_name') === ADMIN_NAME){
-        document.getElementById('deleteArticleBtn').style.display = 'inline-block';
-      }
+// Load article
+if (articleId) {
+  db.collection('articles').doc(articleId).get().then(doc => {
+    if (doc.exists) {
+      const data = doc.data();
+      document.getElementById('articleTitle').textContent = data.title;
+      document.getElementById('articleContent').textContent = data.content;
+      document.getElementById('articleAuthor').textContent = data.author;
+      document.getElementById('articleCategory').textContent = data.category || 'Uncategorized';
     }
-  }
-
-  document.getElementById('deleteArticleBtn').addEventListener('click', async ()=>{
-    if(!confirm('Delete this article? This cannot be undone.')) return;
-    try{
-      await db.collection('articles').doc(articleId).delete();
-      alert('Deleted');
-      location.href = 'index.html';
-    }catch(err){ alert('Error: '+err.message) }
   });
 
-  // Comments
-  function loadComments(){
-    db.collection('articles').doc(articleId).collection('comments').orderBy('timestamp','asc')
-      .onSnapshot(snapshot=>{
-        const list = document.getElementById('commentsList'); list.innerHTML = '';
-        snapshot.forEach(doc=>{
-          const c = doc.data();
-          const div = document.createElement('div'); div.className = 'comment';
-          div.innerHTML = `<strong>${escapeHtml(c.name||'Anonymous')}</strong><div>${escapeHtml(c.text||'')}</div>`;
-          // delete control: show small x if this user posted the comment or admin
-          const myName = localStorage.getItem('th_user_name') || '';
-          if(c.name === myName || myName === ADMIN_NAME || localStorage.getItem('th_is_admin') === '1'){
-            const del = document.createElement('button'); del.textContent='Delete'; del.className='btn'; del.style.marginTop='8px'; del.style.background='#ff6b6b';
-            del.addEventListener('click', async ()=>{
-              if(!confirm('Delete comment?')) return;
-              await db.collection('articles').doc(articleId).collection('comments').doc(doc.id).delete();
-            });
-            div.appendChild(del);
-          }
-          list.appendChild(div);
-        })
-      })
-  }
-
-  document.getElementById('postCommentBtn').addEventListener('click', async ()=>{
-    const name = (document.getElementById('commenterName').value || '').trim();
-    const text = (document.getElementById('commentText').value || '').trim();
-    if(!name || !text){ alert('Enter name and comment'); return; }
-    try{
-      await db.collection('articles').doc(articleId).collection('comments').add({
-        name, text, timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      // save name locally so user can delete their comment later
-      localStorage.setItem('th_user_name', name);
-      document.getElementById('commenterName').value='';
-      document.getElementById('commentText').value='';
-    }catch(err){ alert('Error: '+err.message) }
+  // Load comments
+  db.collection('articles').doc(articleId).collection('comments').orderBy('timestamp','asc').onSnapshot(snapshot => {
+    const list = document.getElementById('commentList');
+    list.innerHTML = '';
+    snapshot.forEach(doc => {
+      const c = doc.data();
+      const div = document.createElement('div');
+      div.className = 'comment';
+      div.innerHTML = `
+        <strong>${c.author}</strong>
+        <p>${c.text}</p>
+        <button style="margin-top:5px; font-size:0.8rem;" onclick="deleteComment('${doc.id}')">Delete</button>
+      `;
+      list.appendChild(div);
+    });
   });
+}
 
-  function escapeHtml(str){
-    return String(str).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]) });
-  }
+// Post comment
+function postComment() {
+  const author = document.getElementById('commentAuthor').value;
+  const text = document.getElementById('commentText').value;
+  if (!author || !text) return alert("Please fill all fields!");
+
+  db.collection('articles').doc(articleId).collection('comments').add({
+    author, text,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(() => {
+    document.getElementById('commentAuthor').value = '';
+    document.getElementById('commentText').value = '';
+  });
+}
+
+// Delete comment
+function deleteComment(id) {
+  db.collection('articles').doc(articleId).collection('comments').doc(id).delete();
+}
 </script>
 </body>
 </html>
