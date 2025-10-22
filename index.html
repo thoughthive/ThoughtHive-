@@ -5,73 +5,115 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ThoughtHive</title>
 <style>
-body {
-  margin:0;
-  font-family:'Segoe UI',sans-serif;
-  background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-  background-size: cover;
-  color:#001f3f;
-}
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
 
-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 20px;
-  background: rgba(0,123,255,0.9);
-  color:white;
-  backdrop-filter: blur(10px);
-}
-header h1 { margin:0; font-size:1.8rem; }
-header button {
-  font-size:24px;
-  background:white;
-  color:#007bff;
-  border:none;
-  border-radius:50%;
-  width:40px;
-  height:40px;
-  cursor:pointer;
-}
+  /* Glassy effect container */
+  .page-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    box-sizing: border-box;
+  }
 
-.container {
-  max-width:600px;
-  margin:20px auto;
-  padding:10px;
-}
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    font-size: 2em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 3px #000;
+  }
 
-.container.glass {
-  background: rgba(255,255,255,0.35);
-  backdrop-filter: blur(20px);
-  padding:20px;
-  border-radius:20px;
-  box-shadow:0 10px 40px rgba(0,0,0,0.25);
-}
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    flex: 1;
+  }
 
-#articles {
-  display:flex;
-  flex-direction:column;
-  gap:15px; 
-}
+  #search-bar {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 20px;
+    font-size: 1em;
+  }
 
-.article-title {
-  background: rgba(255,255,255,0.8);
-  padding:10px;
-  border-radius:10px;
-  cursor:pointer;
-  box-shadow:0 0 5px rgba(0,0,0,0.2);
-  font-weight:bold;
-  color:#001f3f;
-}
+  #add-article-form {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.2);
+    padding: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+  }
 
-@media(max-width:600px){
-  header h1{font-size:1.5rem;}
-}
-</style>
-</head>
-<body>
-    <!-- Info Button -->
-<button id="info-btn" style="
+  #add-article-form input, 
+  #add-article-form textarea, 
+  button.submit-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1em;
+  }
+
+  button.submit-btn {
+    background: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  button.submit-btn:hover {
+    background: #0056b3;
+  }
+
+  #articles {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .article-title {
+    background: rgba(255,255,255,0.2);
+    padding: 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    font-weight: bold;
+  }
+
+  .article-title:hover {
+    background: rgba(255,255,255,0.3);
+  }
+
+  footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9em;
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  /* Info button bottom-right */
+  #info-btn {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -80,15 +122,16 @@ header button {
     height: 50px;
     border-radius: 50%;
     border: none;
-    background: #17a2b8;
+    background: rgba(23,162,184,0.8);
     color: white;
     cursor: pointer;
     font-weight: bold;
     z-index: 9999;
-">i</button>
+    backdrop-filter: blur(5px);
+  }
 
-<!-- Terms Modal -->
-<div id="terms-modal" style="
+  /* Modal */
+  #terms-modal {
     display: none;
     position: fixed;
     top:0; left:0;
@@ -98,98 +141,158 @@ header button {
     box-sizing:border-box;
     overflow:auto;
     z-index: 10000;
-">
-  <div style="
-      background:white;
-      color:black;
-      padding:25px;
-      border-radius:15px;
-      max-width:800px;
-      margin:auto;
-      font-family: Arial, sans-serif;
-      line-height: 1.5;
-  ">
-    <button id="close-terms" style="
-        float:right;
-        font-size:18px;
-        background:#17a2b8;
-        color:white;
-        border:none;
-        border-radius:8px;
-        padding:5px 10px;
-        cursor:pointer;
-    ">Close ✖</button>
+  }
+
+  #terms-content {
+    background:white;
+    color:black;
+    padding:25px;
+    border-radius:15px;
+    max-width:800px;
+    margin:auto;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  #close-terms {
+    float:right;
+    font-size:18px;
+    background:#17a2b8;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:5px 10px;
+    cursor:pointer;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="page-container">
+  <header>ThoughtHive</header>
+  <div class="container">
+
+    <input type="text" id="search-bar" placeholder="Search articles by title...">
+    
+    <button id="show-add-form" style="margin-bottom:15px;padding:10px;border:none;border-radius:10px;background:#007bff;color:white;cursor:pointer;font-weight:bold;">Add Article</button>
+
+    <div id="add-article-form">
+      <input type="text" id="article-title-input" placeholder="Article Title" required>
+      <textarea id="article-content-input" placeholder="Write your article..." rows="4" required></textarea>
+      <input type="text" id="article-author-input" placeholder="Your Name" required>
+      <button class="submit-btn" onclick="postArticle()">Post Article</button>
+    </div>
+
+    <div id="articles"></div>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 ThoughtHive
+</footer>
+
+<!-- Info Button -->
+<button id="info-btn">i</button>
+
+<!-- Terms Modal -->
+<div id="terms-modal">
+  <div id="terms-content">
+    <button id="close-terms">Close ✖</button>
     <h2>Terms & Conditions</h2>
     <p>
-      Welcome to ThoughtHive. By using this platform, you acknowledge that the developer is <strong>not responsible</strong> for any content created or posted by users that may be harmful, offensive, or exploitative. Users must respect the dignity and rights of all individuals, and must not post illegal, abusive, or inappropriate content.
-      <br><br>
-      All content is the responsibility of the user who creates it. The platform is designed for positive and respectful sharing of ideas. Violating these rules may result in removal of content or user access.
-      <br><br>
+      Welcome to ThoughtHive. By using this platform, you acknowledge that the developer is <strong>not responsible</strong> for any content created or posted by users that may be harmful, offensive, or exploitative. Users must respect the dignity and rights of all individuals, and must not post illegal, abusive, or inappropriate content.<br><br>
+      All content is the responsibility of the user who creates it. The platform is designed for positive and respectful sharing of ideas. Violating these rules may result in removal of content or user access.<br><br>
       By using ThoughtHive, you agree to these terms and commit to posting responsibly and ethically.
     </p>
   </div>
 </div>
 
-<script>
-const infoBtn = document.getElementById('info-btn');
-const termsModal = document.getElementById('terms-modal');
-const closeTerms = document.getElementById('close-terms');
-
-infoBtn.onclick = () => { termsModal.style.display = 'block'; }
-closeTerms.onclick = () => { termsModal.style.display = 'none'; }
-
-// Optional: close modal if clicked outside
-window.onclick = function(event) {
-    if(event.target == termsModal){ termsModal.style.display = 'none'; }
-}
-</script>
-    
-<header>
-  <h1>ThoughtHive</h1>
-  <button id="plus-btn">+</button>
-</header>
-
-<div class="container glass">
-  <h2>Articles</h2>
-  <div id="articles"></div>
-</div>
-
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
-// Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
-  authDomain: "thoughthive-ebf0d.firebaseapp.com",
-  projectId: "thoughthive-ebf0d",
-  storageBucket: "thoughthive-ebf0d.firebasestorage.app",
-  messagingSenderId: "254009291887",
-  appId: "1:254009291887:web:b5ce7301fb673ba257499a",
-  measurementId: "G-5C2Q4SDZ3Y"
+    apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
+    authDomain: "thoughthive-ebf0d.firebaseapp.com",
+    projectId: "thoughthive-ebf0d",
+    storageBucket: "thoughthive-ebf0d.firebasestorage.app",
+    messagingSenderId: "254009291887",
+    appId: "1:254009291887:web:b5ce7301fb673ba257499a",
+    measurementId: "G-5C2Q4SDZ3Y"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Toggle Add Article form
+const showAddBtn = document.getElementById('show-add-form');
+const addForm = document.getElementById('add-article-form');
+showAddBtn.onclick = () => {
+  addForm.style.display = addForm.style.display === 'none' ? 'flex' : 'none';
+}
+
+// Post Article
+async function postArticle() {
+    const title = document.getElementById('article-title-input').value;
+    const content = document.getElementById('article-content-input').value;
+    const author = document.getElementById('article-author-input').value;
+    if(!title || !content || !author){ alert('Fill all fields'); return; }
+
+    try {
+        await db.collection('articles').add({
+            title, content, author,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        alert('Article posted!');
+        document.getElementById('article-title-input').value = '';
+        document.getElementById('article-content-input').value = '';
+        document.getElementById('article-author-input').value = '';
+        addForm.style.display = 'none';
+    } catch(err){
+        alert('Error: '+err.message);
+    }
+}
+
 // Load articles
 let allArticles = [];
-db.collection('articles').orderBy('timestamp','desc').onSnapshot(snapshot => {
-  allArticles = [];
-  snapshot.forEach(doc=>allArticles.push({id: doc.id, ...doc.data()}));
-  renderArticles(allArticles);
+db.collection('articles').orderBy('timestamp','desc').onSnapshot(snapshot=>{
+    allArticles = [];
+    snapshot.forEach(doc=>{
+        allArticles.push({id: doc.id, ...doc.data()});
+    });
+    renderArticles(allArticles);
 });
 
+// Render article titles
 function renderArticles(articles){
-  const articlesDiv = document.getElementById('articles');
-  articlesDiv.innerHTML='';
-  articles.forEach(article=>{
-    const div=document.createElement('div');
-    div.className='article-title';
-    div.textContent=article.title;
-    div.onclick=()=>window.location.href=`article.html?id=${article.id}`;
-    articlesDiv.appendChild(div);
-  });
+    const div = document.getElementById('articles');
+    div.innerHTML = '';
+    articles.forEach(article=>{
+        const aDiv = document.createElement('div');
+        aDiv.className = 'article-title';
+        aDiv.textContent = article.title;
+        aDiv.onclick = ()=>{ window.location.href = 'article.html?id='+article.id; }
+        div.appendChild(aDiv);
+    });
 }
+
+// Search
+document.getElementById('search-bar').addEventListener('input', (e)=>{
+    const q = e.target.value.toLowerCase();
+    renderArticles(allArticles.filter(a=>a.title.toLowerCase().includes(q)));
+});
+
+// Terms modal
+const infoBtn = document.getElementById('info-btn');
+const termsModal = document.getElementById('terms-modal');
+const closeTerms = document.getElementById('close-terms');
+infoBtn.onclick = ()=>{ termsModal.style.display = 'block'; }
+closeTerms.onclick = ()=>{ termsModal.style.display = 'none'; }
+window.onclick = (event)=>{ if(event.target==termsModal) termsModal.style.display='none'; }
+
 </script>
 </body>
 </html>
