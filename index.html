@@ -10,6 +10,7 @@ html, body {
   height: 100%;
   margin: 0;
   font-family: 'Roboto', sans-serif;
+  scroll-behavior: smooth;
 }
 body {
   background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
@@ -25,7 +26,29 @@ header {
   padding: 20px;
   backdrop-filter: blur(10px);
   background: rgba(0,0,0,0.5);
+  position: relative;
 }
+#tab-bar {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 20px;
+  gap: 10px;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  margin: 10px 20px 0;
+}
+.tab {
+  padding: 8px 16px;
+  background: rgba(29,161,242,0.8);
+  border-radius: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+.tab.active { background: #0d8ddb; }
+.tab:hover { transform: scale(1.05); }
 .container {
   max-width: 700px;
   margin: 20px auto;
@@ -34,16 +57,26 @@ header {
   gap: 15px;
   flex: 1;
 }
-#search-bar, #category-filter {
+#search-bar {
   width: 100%;
   padding: 12px;
   border-radius: 12px;
   border: none;
   font-size: 1rem;
-  background: rgba(0,0,0,0.6);
+  background: rgba(255,255,255,0.15);
   color: #fff;
 }
-#search-bar::placeholder { color: #ccc; }
+#search-bar::placeholder { color: #ddd; }
+#category-filter {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  margin-bottom: 10px;
+}
 .article-card {
   background: rgba(0,0,0,0.6);
   padding: 15px 20px;
@@ -54,9 +87,7 @@ header {
   justify-content: space-between;
   align-items: center;
 }
-.article-card:hover {
-  background: rgba(0,0,0,0.75);
-}
+.article-card:hover { background: rgba(0,0,0,0.75); }
 .category-tag {
   font-size: 0.8rem;
   color: #aaa;
@@ -105,10 +136,7 @@ footer {
   justify-content: center;
   transition: 0.3s;
 }
-#add-circle-btn:hover {
-  background: #0d8ddb;
-  transform: scale(1.1);
-}
+#add-circle-btn:hover { background: #0d8ddb; transform: scale(1.1); }
 #terms-modal {
   display: none;
   position: fixed;
@@ -156,24 +184,33 @@ body.light-mode {
 }
 body.light-mode header,
 body.light-mode footer,
-body.light-mode .article-card {
+body.light-mode .article-card,
+body.light-mode #tab-bar {
   background: rgba(255,255,255,0.9);
   color: #111;
 }
-body.light-mode input,
-body.light-mode select {
+body.light-mode #search-bar,
+body.light-mode #category-filter {
   background: rgba(0,0,0,0.05);
   color: #111;
 }
-body.light-mode .category-tag {
-  background: rgba(0,0,0,0.1);
-  color: #333;
-}
+body.light-mode .tab { background: rgba(29,161,242,0.8); color:#fff; }
+body.light-mode .tab.active { background: #0d8ddb; }
 </style>
 </head>
 <body>
 <header>ThoughtHive</header>
+<div id="tab-bar">
+  <div class="tab active" data-cat="">All</div>
+  <div class="tab" data-cat="Animal">Animal</div>
+  <div class="tab" data-cat="Cars">Cars</div>
+  <div class="tab" data-cat="Engineering">Engineering</div>
+  <div class="tab" data-cat="Technology">Technology</div>
+  <div class="tab" data-cat="Lifestyle">Lifestyle</div>
+</div>
+
 <button id="theme-toggle">🌙</button>
+
 <div class="container">
   <input type="text" id="search-bar" placeholder="Search articles...">
   <select id="category-filter">
@@ -237,8 +274,6 @@ function renderArticles(articles){
   });
 }
 
-document.getElementById('search-bar').addEventListener('input', filterArticles);
-document.getElementById('category-filter').addEventListener('change', filterArticles);
 function filterArticles(){
   const query=document.getElementById('search-bar').value.toLowerCase();
   const category=document.getElementById('category-filter').value;
@@ -246,6 +281,8 @@ function filterArticles(){
   if(category) filtered = filtered.filter(a=>a.category===category);
   renderArticles(filtered);
 }
+document.getElementById('search-bar').addEventListener('input', filterArticles);
+document.getElementById('category-filter').addEventListener('change', filterArticles);
 
 document.getElementById('info-btn').onclick = ()=>{ document.getElementById('terms-modal').style.display='block'; }
 document.getElementById('close-terms').onclick = ()=>{ document.getElementById('terms-modal').style.display='none'; }
@@ -257,6 +294,16 @@ document.getElementById('theme-toggle').addEventListener('click', ()=>{
   document.body.classList.toggle('light-mode');
   document.getElementById('theme-toggle').textContent = document.body.classList.contains('light-mode') ? '☀' : '🌙';
 });
+
+// Tab bar click filter
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('category-filter').value = tab.getAttribute('data-cat');
+    filterArticles();
+  });
+});
 </script>
 </body>
-</html>
+</html>  
