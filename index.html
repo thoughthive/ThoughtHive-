@@ -1,320 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ThoughtHive </title>
-<style>
-  /* Sticky footer setup */
-  body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #e0f0ff;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThoughtHive</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0d47a1, #1976d2, #42a5f5);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+      backdrop-filter: blur(10px);
+    }
 
-  .page-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
+    header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      padding: 15px 30px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #007bff;
-    color: white;
-    padding: 15px 20px;
-  }
+    h1 {
+      font-size: 26px;
+      font-weight: bold;
+      color: #e3f2fd;
+    }
 
-  header h1 { margin: 0; }
+    #search-bar {
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 14px;
+      width: 200px;
+    }
 
-  header button {
-    font-size: 24px;
-    background: white;
-    color: #007bff;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-  }
+    #add-article-btn {
+      font-size: 24px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-  .container {
-    flex: 1; /* fill available space */
-    max-width: 600px;
-    margin: 20px auto;
-  }
+    #add-article-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(1.1);
+    }
 
-  #search-bar { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 20px; }
+    #articles-container {
+      width: 90%;
+      max-width: 700px;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
 
-  #articles { display: flex; flex-direction: column; gap: 10px; }
+    .article-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
 
-  .article-title {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px #aaa;
-    cursor: pointer;
-  }
+    .article-card:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+    }
 
-  .article-full {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #aaa;
-    margin-bottom: 20px;
-  }
+    #article-view {
+      display: none;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 25px;
+      margin-top: 20px;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.5s ease;
+    }
 
-  .article-full img { max-width: 100%; border-radius: 5px; margin-top: 10px; }
+    #add-article-form {
+      display: none;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 25px;
+      margin-top: 20px;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.5s ease;
+    }
 
-  #add-article-form {
-    display: none;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #aaa;
-    margin-bottom: 20px;
-  }
+    input, textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-size: 15px;
+    }
 
-  input, textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+    button {
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
 
-  button.submit-btn, button.delete-btn {
-    background: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 5px;
-  }
+    button:hover {
+      background-color: #42a5f5;
+    }
 
-  button.submit-btn:hover, button.delete-btn:hover { background: #0056b3; }
+    footer {
+      margin-top: auto;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      text-align: center;
+      width: 100%;
+      position: relative;
+    }
 
-  button.delete-btn { background: #ff4d4d; margin-top: 10px; }
+    footer a {
+      color: #bbdefb;
+      text-decoration: underline;
+      cursor: pointer;
+    }
 
-  button.delete-btn:hover { background: #cc0000; }
-
-  footer {
-    background:#007bff;
-    color:white;
-    text-align:center;
-    padding:15px 10px;
-    font-size:14px;
-  }
-
-  a.terms-link { color:white; text-decoration:underline; cursor:pointer; }
-
-  #terms-modal {
-    display:none;
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background: rgba(0,0,0,0.8);
-    overflow:auto;
-    padding:50px 20px;
-    box-sizing:border-box;
-  }
-
-  #terms-content {
-    background:white;
-    color:black;
-    padding:20px;
-    border-radius:10px;
-    max-width:800px;
-    margin: auto;
-  }
-
-  #close-terms {
-    float:right;
-    cursor:pointer;
-    font-size:20px;
-    background:#007bff;
-    color:white;
-    border:none;
-    border-radius:5px;
-    padding:5px 10px;
-  }
-</style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-
-<div class="page-container">
   <header>
-    <h1>ThoughtHive </h1>
-    <button id="plus-btn">+</button>
+    <h1>ThoughtHive</h1>
+    <input type="text" id="search-bar" placeholder="Search articles...">
+    <button id="add-article-btn" onclick="showAddArticleForm()">+</button>
   </header>
 
-  <div class="container">
-    <input type="text" id="search-bar" placeholder="Search articles by title...">
+  <div id="articles-container"></div>
 
-    <div id="add-article-form">
-      <h2>Add Article</h2>
-      <input type="text" id="article-title-input" placeholder="Article Title" required>
-      <textarea id="article-content-input" placeholder="Write your article here..." rows="4" required></textarea>
-      <input type="text" id="article-author-input" placeholder="Your Name" required>
-      <input type="file" id="article-image-input">
-      <button class="submit-btn" onclick="postArticle()">Post Article</button>
+  <div id="add-article-form">
+    <input type="text" id="title" placeholder="Enter title" required>
+    <input type="text" id="author" placeholder="Your name" required>
+    <textarea id="content" rows="5" placeholder="Write your article..." required></textarea>
+    <input type="file" id="imageUpload" accept="image/*">
+    <button onclick="postArticle()">Post</button>
+    <button onclick="closeAddForm()">Cancel</button>
+  </div>
+
+  <div id="article-view">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <h2 id="article-title"></h2>
+      <button id="close-btn" onclick="closeArticle()">Close ✖</button>
     </div>
-
-    <div id="articles"></div>
+    <img id="article-image" style="width:100%;border-radius:12px;margin:10px 0;display:none;">
+    <p id="article-content"></p>
+    <p id="article-author" style="font-style:italic;opacity:0.8;"></p>
+    <button id="delete-btn" onclick="deleteArticle()">Delete Article</button>
   </div>
-</div>
 
-<footer>
-  <p>&copy; 2025 ThoughtHive | <span class="terms-link" onclick="showTerms()">Terms & Conditions</span></p>
-</footer>
+  <footer>
+    <a href="#" onclick="showTerms()">Terms & Conditions</a>
+  </footer>
 
-<!-- Terms & Conditions Modal -->
-<div id="terms-modal">
-  <div id="terms-content">
-    <button id="close-terms" onclick="closeTerms()">Close ✖</button>
-    <h2>Terms & Conditions</h2>
-    <p>
-      Welcome to ThoughtHive. By using this platform, you agree that the developer is not responsible for any content posted by users that may be offensive, harmful, illegal, or exploitative.
-      Users must respect the rights and dignity of every human being and ensure that their posts do not threaten, harass, or harm anyone in any way.
-      The developer disclaims any liability for misuse of this platform, including but not limited to sharing inappropriate material, harassment, or exploitation.
-      Users are fully responsible for the content they create and share. ThoughtHive is intended for positive and respectful sharing of ideas, and anyone violating these terms may be removed from the platform.
-      By using this service, you agree to follow these rules and respect the rights, safety, and well-being of others at all times.
-    </p>
-  </div>
-</div>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
+      authDomain: "thoughthive-ebf0d.firebaseapp.com",
+      projectId: "thoughthive-ebf0d",
+      storageBucket: "thoughthive-ebf0d.firebasestorage.app",
+      messagingSenderId: "254009291887",
+      appId: "1:254009291887:web:b5ce7301fb673ba257499a",
+      measurementId: "G-5C2Q4SDZ3Y"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
-<script>
-const firebaseConfig = {
-    apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
-    authDomain: "thoughthive-ebf0d.firebaseapp.com",
-    projectId: "thoughthive-ebf0d",
-    storageBucket: "thoughthive-ebf0d.firebasestorage.app",
-    messagingSenderId: "254009291887",
-    appId: "1:254009291887:web:b5ce7301fb673ba257499a",
-    measurementId: "G-5C2Q4SDZ3Y"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const storage = firebase.storage();
+    const articlesContainer = document.getElementById('articles-container');
+    const articleView = document.getElementById('article-view');
+    const addForm = document.getElementById('add-article-form');
+    const searchBar = document.getElementById('search-bar');
 
-// Toggle Add Article form
-const plusBtn = document.getElementById('plus-btn');
-const addForm = document.getElementById('add-article-form');
-plusBtn.onclick = () => { addForm.style.display = addForm.style.display === 'none' ? 'block' : 'none'; }
+    let selectedArticleId = null;
 
-// Post Article
-async function postArticle() {
-    try {
-        const title = document.getElementById('article-title-input').value;
-        const content = document.getElementById('article-content-input').value;
-        const author = document.getElementById('article-author-input').value;
-        const imageFile = document.getElementById('article-image-input').files[0];
-        if (!title || !content || !author) { alert('Fill all fields!'); return; }
+    function showAddArticleForm() {
+      addForm.style.display = "block";
+      articlesContainer.style.display = "none";
+    }
 
-        
+    function closeAddForm() {
+      addForm.style.display = "none";
+      articlesContainer.style.display = "block";
+    }
 
-        await db.collection('articles').add({
-            title, content, author, imageUrl,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    async function postArticle() {
+      const title = document.getElementById('title').value.trim();
+      const author = document.getElementById('author').value.trim();
+      const content = document.getElementById('content').value.trim();
+      const file = document.getElementById('imageUpload').files[0];
+
+      if (!title || !author || !content) {
+        alert("Please fill all fields!");
+        return;
+      }
+
+      let imageUrl = "";
+      if (file) {
+        const storageRef = storage.ref("articles/" + file.name);
+        await storageRef.put(file);
+        imageUrl = await storageRef.getDownloadURL();
+      }
+
+      await db.collection("articles").add({
+        title, author, content, imageUrl, created: new Date()
+      });
+
+      document.getElementById('title').value = '';
+      document.getElementById('author').value = '';
+      document.getElementById('content').value = '';
+      document.getElementById('imageUpload').value = '';
+
+      closeAddForm();
+      loadArticles();
+    }
+
+    function loadArticles() {
+      db.collection("articles").orderBy("created", "desc").onSnapshot(snapshot => {
+        articlesContainer.innerHTML = "";
+        snapshot.forEach(doc => {
+          const article = doc.data();
+          const card = document.createElement("div");
+          card.classList.add("article-card");
+          card.textContent = article.title;
+          card.onclick = () => openArticle(doc.id, article);
+          articlesContainer.appendChild(card);
         });
-
-        alert('Article posted successfully!');
-        document.getElementById('article-title-input').value = '';
-        document.getElementById('article-content-input').value = '';
-        document.getElementById('article-author-input').value = '';
-        document.getElementById('article-image-input').value = '';
-        addForm.style.display = 'none';
-    } catch(err) {
-        alert('Error posting: ' + err.message);
-        console.error(err);
+      });
     }
-}
 
-// Load and display article titles
-let allArticles = [];
-db.collection('articles').orderBy('timestamp','desc').onSnapshot(snapshot => {
-    allArticles = [];
-    snapshot.forEach(doc => allArticles.push({id: doc.id, ...doc.data()}));
-    renderArticles(allArticles);
-});
+    function openArticle(id, article) {
+      selectedArticleId = id;
+      articleView.style.display = "block";
+      articlesContainer.style.display = "none";
+      document.getElementById('article-title').textContent = article.title;
+      document.getElementById('article-content').textContent = article.content;
+      document.getElementById('article-author').textContent = "Written by: " + article.author;
+      const img = document.getElementById('article-image');
+      if (article.imageUrl) {
+        img.src = article.imageUrl;
+        img.style.display = "block";
+      } else {
+        img.style.display = "none";
+      }
+    }
 
-// Render article titles
-function renderArticles(articles) {
-    const articlesDiv = document.getElementById('articles');
-    articlesDiv.innerHTML = '';
-    articles.forEach(article => {
-        const div = document.createElement('div');
-        div.className = 'article-title';
-        div.textContent = article.title;
-        div.onclick = () => showFullArticle(article);
-        articlesDiv.appendChild(div);
+    function closeArticle() {
+      articleView.style.display = "none";
+      articlesContainer.style.display = "block";
+    }
+
+    async function deleteArticle() {
+      if (confirm("Are you sure you want to delete this article?")) {
+        await db.collection("articles").doc(selectedArticleId).delete();
+        closeArticle();
+      }
+    }
+
+    function showTerms() {
+      alert("Terms & Conditions:\n\nThis website is a platform for users to share their thoughts. The developer is not responsible for any harmful, disrespectful, or inappropriate content posted by users. All users must respect the dignity, safety, and rights of others when posting articles or comments.");
+    }
+
+    searchBar.addEventListener("input", () => {
+      const search = searchBar.value.toLowerCase();
+      const cards = document.querySelectorAll(".article-card");
+      cards.forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(search) ? "block" : "none";
+      });
     });
-}
 
-// Show full article with delete option and back
-
-function showFullArticle(article) {
-    const articlesDiv = document.getElementById('articles');
-    articlesDiv.innerHTML = '';
-
-    const div = document.createElement('div');
-    div.className = 'article-full';
-    div.style.position = 'relative'; // to position close button
-
-    // Close button top-right
-    const closeBtn = document.createElement('button');
-    closeBtn.textContent = '✖ Close';
-    closeBtn.style.position = 'absolute';
-    closeBtn.style.top = '10px';
-    closeBtn.style.right = '10px';
-    closeBtn.style.background = '#007bff';
-    closeBtn.style.color = 'white';
-    closeBtn.style.border = 'none';
-    closeBtn.style.borderRadius = '5px';
-    closeBtn.style.padding = '5px 10px';
-    closeBtn.style.cursor = 'pointer';
-    closeBtn.onclick =renderArticles(allArticles);
-    div.appendChild(closeBtn);
-
-    // Article content
-    div.innerHTML += `
-        <h2>${article.title}</h2>
-        <p>${article.content}</p>
-        <p><strong>By:</strong> ${article.author}</p>
-        ${article.imageUrl ? `<img src="${article.imageUrl}">` : ''}
-        <button class="delete-btn" onclick="deleteArticle('${article.id}')">Delete Article</button>
-    `;
-
-    articlesDiv.appendChild(div);
-}
-
-
-// Delete article
-async function deleteArticle(id) {
-    if (confirm('Are you sure you want to delete this article?')) {
-        await db.collection('articles').doc(id).delete();
-        alert('Article deleted!');
-    }
-}
-
-// Search articles
-const searchBar = document.getElementById('search-bar');
-searchBar.addEventListener('input', () => {
-    const query = searchBar.value.toLowerCase();
-    const filtered = allArticles.filter(a => a.title.toLowerCase().includes(query));
-    renderArticles(filtered);
-});
-
-// Terms & Conditions modal
-function showTerms() { document.getElementById('terms-modal').style.display = 'block'; }
-function closeTerms() { document.getElementById('terms-modal').style.display = 'none'; }
-</script>
-
+    loadArticles();
+  </script>
 </body>
-</html>
-    
+</html>                
