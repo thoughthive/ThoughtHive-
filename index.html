@@ -8,22 +8,21 @@
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-    background-size: cover;
+    background: #121212;
     color: #fff;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
   }
 
   .page-container {
     flex: 1;
     display: flex;
     flex-direction: column;
-    backdrop-filter: blur(10px);
-    background: rgba(255,255,255,0.1);
     padding: 20px;
     box-sizing: border-box;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(12px);
   }
 
   header {
@@ -31,7 +30,6 @@
     font-size: 2em;
     font-weight: bold;
     padding: 20px;
-    text-shadow: 1px 1px 3px #000;
   }
 
   .container {
@@ -47,6 +45,8 @@
     border: none;
     margin-bottom: 20px;
     font-size: 1em;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
   }
 
   #articles {
@@ -56,16 +56,17 @@
   }
 
   .article-title {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
     padding: 15px;
     border-radius: 15px;
     cursor: pointer;
     backdrop-filter: blur(5px);
     font-weight: bold;
+    transition: 0.3s;
   }
 
   .article-title:hover {
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.15);
   }
 
   button.add-btn {
@@ -80,12 +81,12 @@
     width:100%;
   }
 
+  button.add-btn:hover { background:#0056b3; }
+
   footer {
     text-align: center;
     padding: 10px;
     font-size: 0.9em;
-    color: #fff;
-    text-shadow: 1px 1px 2px #000;
   }
 
   #info-btn {
@@ -101,8 +102,8 @@
     color: white;
     cursor: pointer;
     font-weight: bold;
-    z-index: 9999;
     backdrop-filter: blur(5px);
+    z-index: 9999;
   }
 
   /* Terms modal */
@@ -119,14 +120,13 @@
   }
 
   #terms-content {
-    background:white;
-    color:black;
+    background:#1e1e1e;
+    color:white;
     padding:25px;
     border-radius:15px;
     max-width:800px;
     margin:auto;
-    font-family: Arial, sans-serif;
-    line-height: 1.5;
+    line-height:1.5;
   }
 
   #close-terms {
@@ -148,42 +148,35 @@
   <div class="container">
     <input type="text" id="search-bar" placeholder="Search articles by title...">
     <button class="add-btn" onclick="window.location.href='add-article.html'">Add Article</button>
-
     <div id="articles"></div>
   </div>
 </div>
 
 <footer>&copy; 2025 ThoughtHive</footer>
-
-<!-- Info button -->
 <button id="info-btn">i</button>
 
-<!-- Terms Modal -->
 <div id="terms-modal">
   <div id="terms-content">
     <button id="close-terms">Close ✖</button>
     <h2>Terms & Conditions</h2>
     <p>
-      Welcome to ThoughtHive. By using this platform, you acknowledge that the developer is <strong>not responsible</strong> for any content created or posted by users that may be harmful, offensive, or exploitative. Users must respect the dignity and rights of all individuals, and must not post illegal, abusive, or inappropriate content.<br><br>
-      All content is the responsibility of the user who creates it. The platform is designed for positive and respectful sharing of ideas. Violating these rules may result in removal of content or user access.<br><br>
-      By using ThoughtHive, you agree to these terms and commit to posting responsibly and ethically.
+      Welcome to ThoughtHive. The developer is <strong>not responsible</strong> for any content posted by users. Users must respect the dignity and rights of others and avoid posting offensive, illegal, or harmful content. You are responsible for what you post. Violations may result in removal of content or access restriction.
     </p>
   </div>
 </div>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
 const firebaseConfig = {
-    apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
-    authDomain: "thoughthive-ebf0d.firebaseapp.com",
-    projectId: "thoughthive-ebf0d",
-    storageBucket: "thoughthive-ebf0d.firebasestorage.app",
-    messagingSenderId: "254009291887",
-    appId: "1:254009291887:web:b5ce7301fb673ba257499a",
-    measurementId: "G-5C2Q4SDZ3Y"
+  apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
+  authDomain: "thoughthive-ebf0d.firebaseapp.com",
+  projectId: "thoughthive-ebf0d",
+  storageBucket: "thoughthive-ebf0d.firebasestorage.app",
+  messagingSenderId: "254009291887",
+  appId: "1:254009291887:web:b5ce7301fb673ba257499a",
+  measurementId: "G-5C2Q4SDZ3Y"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -191,38 +184,37 @@ const db = firebase.firestore();
 // Load articles
 let allArticles = [];
 db.collection('articles').orderBy('timestamp','desc').onSnapshot(snapshot=>{
-    allArticles = [];
-    snapshot.forEach(doc=>{
-        allArticles.push({id: doc.id, ...doc.data()});
-    });
-    renderArticles(allArticles);
+  allArticles = [];
+  snapshot.forEach(doc=>{
+    allArticles.push({id: doc.id, ...doc.data()});
+  });
+  renderArticles(allArticles);
 });
 
 function renderArticles(articles){
-    const div = document.getElementById('articles');
-    div.innerHTML = '';
-    articles.forEach(article=>{
-        const aDiv = document.createElement('div');
-        aDiv.className = 'article-title';
-        aDiv.textContent = article.title;
-        aDiv.onclick = ()=>{ window.location.href = 'article.html?id='+article.id; }
-        div.appendChild(aDiv);
-    });
+  const div = document.getElementById('articles');
+  div.innerHTML='';
+  articles.forEach(article=>{
+    const aDiv = document.createElement('div');
+    aDiv.className = 'article-title';
+    aDiv.textContent = article.title;
+    aDiv.onclick = ()=>{ window.location.href='article.html?id='+article.id; }
+    div.appendChild(aDiv);
+  });
 }
 
-// Search
 document.getElementById('search-bar').addEventListener('input', (e)=>{
-    const q = e.target.value.toLowerCase();
-    renderArticles(allArticles.filter(a=>a.title.toLowerCase().includes(q)));
+  const q = e.target.value.toLowerCase();
+  renderArticles(allArticles.filter(a=>a.title.toLowerCase().includes(q)));
 });
 
-// Terms modal
 const infoBtn = document.getElementById('info-btn');
 const termsModal = document.getElementById('terms-modal');
 const closeTerms = document.getElementById('close-terms');
-infoBtn.onclick = ()=>{ termsModal.style.display = 'block'; }
-closeTerms.onclick = ()=>{ termsModal.style.display = 'none'; }
+infoBtn.onclick = ()=>{ termsModal.style.display='block'; }
+closeTerms.onclick = ()=>{ termsModal.style.display='none'; }
 window.onclick = (event)=>{ if(event.target==termsModal) termsModal.style.display='none'; }
 </script>
+
 </body>
-</html>                  
+</html>
