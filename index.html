@@ -4,163 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ThoughtHive</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 body {
-  margin:0;
-  font-family:Arial,sans-serif;
-  background: url('https://images.unsplash.com/photo-1604079629993-8db8926c3eaa?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
-  background-size: cover;
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
+  margin:0; font-family:'Roboto',sans-serif;
+  background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
+  background-size: cover; color:#fff;
 }
-.page-container{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  padding:20px;
-  backdrop-filter:blur(8px);
-}
-header{
-  text-align:center;
-  font-size:2em;
-  font-weight:bold;
-  margin-bottom:20px;
-}
-.container{
-  max-width:600px;
-  margin:0 auto;
-  flex:1;
-}
-#search-bar,#category-filter{
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  border:none;
-  margin-bottom:10px;
-  font-size:1em;
-  background: rgba(0,0,0,0.5);
-  color:#fff;
-}
-#articles{
-  display:flex;
-  flex-direction:column;
-  gap:15px;
-}
-.article-title{
-  background:rgba(0,0,0,0.7);
-  padding:15px;
-  border-radius:15px;
-  cursor:pointer;
-  backdrop-filter:blur(5px);
-  font-weight:bold;
-  transition:0.3s;
-}
-.article-title:hover{
-  background:rgba(0,0,0,0.85);
-}
-footer{
-  text-align:center;
-  padding:10px;
-  font-size:0.9em;
-}
-#info-btn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  font-size:22px;
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  border:none;
-  background:rgba(23,162,184,0.8);
-  color:white;
-  cursor:pointer;
-  font-weight:bold;
-  backdrop-filter:blur(5px);
-  z-index:9999;
-}
-#terms-modal{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.9);
-  padding:50px 20px;
-  box-sizing:border-box;
-  overflow:auto;
-  z-index:10000;
-}
-#terms-content{
-  background:#111;
-  color:white;
-  padding:25px;
-  border-radius:15px;
-  max-width:800px;
-  margin:auto;
-  line-height:1.5;
-}
-#close-terms{
-  float:right;
-  font-size:18px;
-  background:#17a2b8;
-  color:white;
-  border:none;
-  border-radius:8px;
-  padding:5px 10px;
-  cursor:pointer;
-}
-.category-span{
-  font-size:0.85em;
-  color:#aaa;
-  margin-left:10px;
-}
-button.add-btn{
-  background:#007bff;
-  color:#fff;
-  border:none;
-  padding:10px 15px;
-  border-radius:12px;
-  cursor:pointer;
-  margin-bottom:15px;
-}
-button.add-btn:hover{
-  background:#0056b3;
-}
+header{ text-align:center; font-size:2rem; font-weight:700; padding:20px; backdrop-filter: blur(10px); background: rgba(0,0,0,0.5);}
+.container{max-width:700px;margin:20px auto; display:flex; flex-direction:column; gap:15px;}
+#search-bar, #category-filter{width:100%; padding:12px; border-radius:12px; border:none; font-size:1rem; background:rgba(255,255,255,0.1); color:#fff;}
+.article-card{background:rgba(0,0,0,0.6);padding:15px 20px;border-radius:15px;cursor:pointer;transition:0.3s; display:flex; justify-content:space-between; align-items:center;}
+.article-card:hover{background:rgba(0,0,0,0.75);}
+.category-tag{font-size:0.8rem; color:#aaa; padding:2px 8px; border-radius:8px; background:rgba(255,255,255,0.1);}
+.add-btn{background:#1DA1F2;color:#fff;border:none;padding:12px 20px;border-radius:12px;font-size:1rem;cursor:pointer;margin-top:10px;}
+.add-btn:hover{background:#0d8ddb;}
+footer{text-align:center;padding:10px;background: rgba(0,0,0,0.5);}
+#info-btn{position:fixed; bottom:20px; right:20px; font-size:20px; width:50px; height:50px; border-radius:50%; border:none; background: rgba(29,161,242,0.8); color:#fff; cursor:pointer; font-weight:bold;}
+#terms-modal{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); padding:50px 20px; box-sizing:border-box; overflow:auto;}
+#terms-content{background:#111; color:#fff; padding:25px; border-radius:20px; max-width:800px; margin:auto; line-height:1.5;}
+#close-terms{float:right; font-size:18px; background:#1DA1F2; color:#fff; border:none; border-radius:8px; padding:5px 10px; cursor:pointer;}
+#theme-toggle{position:fixed; top:20px; right:20px; padding:10px 15px; border-radius:50px; border:none; cursor:pointer; background:#1DA1F2; color:#fff; z-index:1000;}
+body.light-mode{background:#f2f2f2; color:#111;}
+body.light-mode header, body.light-mode footer, body.light-mode .article-card{background:rgba(255,255,255,0.9); color:#111;}
+body.light-mode input, body.light-mode textarea, body.light-mode select{background:rgba(0,0,0,0.05); color:#111;}
+body.light-mode .category-tag{background:rgba(0,0,0,0.1); color:#333;}
 </style>
 </head>
 <body>
-
-<div class="page-container">
-  <header>ThoughtHive</header>
-  <div class="container">
-    <input type="text" id="search-bar" placeholder="Search articles by title...">
-    <select id="category-filter">
-      <option value="">All Categories</option>
-      <option value="Animal">Animal</option>
-      <option value="Cars">Cars</option>
-      <option value="Engineering">Engineering</option>
-      <option value="Technology">Technology</option>
-      <option value="Lifestyle">Lifestyle</option>
-      <option value="Education">Education</option>
-      <option value="Science">Science</option>
-      <option value="Travel">Travel</option>
-      <option value="Health & Fitness">Health & Fitness</option>
-      <option value="Art & Design">Art & Design</option>
-      <option value="Sports">Sports</option>
-      <option value="Music">Music</option>
-      <option value="Food & Recipes">Food & Recipes</option>
-      <option value="History & Culture">History & Culture</option>
-      <option value="Movies & Entertainment">Movies & Entertainment</option>
-    </select>
-    <button class="add-btn" onclick="window.location.href='add-article.html'">Add Article</button>
-    <div id="articles"></div>
-  </div>
+<header>ThoughtHive</header>
+<button id="theme-toggle">🌙</button>
+<div class="container">
+  <input type="text" id="search-bar" placeholder="Search articles...">
+  <select id="category-filter">
+    <option value="">All Categories</option>
+    <option value="Animal">Animal</option>
+    <option value="Cars">Cars</option>
+    <option value="Engineering">Engineering</option>
+    <option value="Technology">Technology</option>
+    <option value="Lifestyle">Lifestyle</option>
+    <option value="Education">Education</option>
+    <option value="Science">Science</option>
+    <option value="Travel">Travel</option>
+  </select>
+  <button class="add-btn" onclick="window.location.href='add-article.html'">Add Article</button>
+  <div id="articles"></div>
 </div>
-
 <footer>&copy; 2025 ThoughtHive</footer>
 <button id="info-btn">i</button>
 
@@ -168,9 +57,7 @@ button.add-btn:hover{
   <div id="terms-content">
     <button id="close-terms">Close ✖</button>
     <h2>Terms & Conditions</h2>
-    <p>
-      Welcome to ThoughtHive. The developer is <strong>not responsible</strong> for user content. Users must respect dignity and rights of others and avoid posting offensive, illegal, or harmful content. You are responsible for your posts.
-    </p>
+    <p>Developer is not responsible for user-generated content. Users must respect rights and dignity of others. Avoid posting offensive, illegal, or harmful material. You are responsible for your content.</p>
   </div>
 </div>
 
@@ -201,17 +88,16 @@ function renderArticles(articles){
   const div = document.getElementById('articles');
   div.innerHTML='';
   articles.forEach(article=>{
-    const aDiv = document.createElement('div');
-    aDiv.className='article-title';
-    aDiv.innerHTML = `${article.title} <span class="category-span">[${article.category || 'General'}]</span>`;
-    aDiv.onclick = ()=>{ window.location.href='article.html?id='+article.id; }
-    div.appendChild(aDiv);
+    const card = document.createElement('div');
+    card.className='article-card';
+    card.innerHTML = `<span>${article.title}</span><span class="category-tag">${article.category||'General'}</span>`;
+    card.onclick = ()=>{ window.location.href='article.html?id='+article.id; }
+    div.appendChild(card);
   });
 }
 
-document.getElementById('search-bar').addEventListener('input', ()=>{filterArticles();});
-document.getElementById('category-filter').addEventListener('change', ()=>{filterArticles();});
-
+document.getElementById('search-bar').addEventListener('input', filterArticles);
+document.getElementById('category-filter').addEventListener('change', filterArticles);
 function filterArticles(){
   const query=document.getElementById('search-bar').value.toLowerCase();
   const category=document.getElementById('category-filter').value;
@@ -226,6 +112,12 @@ const closeTerms = document.getElementById('close-terms');
 infoBtn.onclick = ()=>{ termsModal.style.display='block'; }
 closeTerms.onclick = ()=>{ termsModal.style.display='none'; }
 window.onclick = (event)=>{ if(event.target==termsModal) termsModal.style.display='none'; }
+
+const toggleBtn = document.getElementById('theme-toggle');
+toggleBtn.addEventListener('click', ()=>{
+  document.body.classList.toggle('light-mode');
+  toggleBtn.textContent = document.body.classList.contains('light-mode') ? '☀' : '🌙';
+});
 </script>
 </body>
 </html>
