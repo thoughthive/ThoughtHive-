@@ -4,344 +4,307 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ThoughtHive</title>
-
-<!-- Styles -->
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
+  /* Reset & base */
+  * { box-sizing: border-box; margin:0; padding:0; }
   body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: white;
-    text-align: center;
+    font-family: Arial, sans-serif;
     min-height: 100vh;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,123,255,0.05)), url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: #0a2540;
+    display: flex;
+    flex-direction: column;
   }
 
+  /* Glassy container effect */
+  .glass {
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+  }
+
+  /* Header */
   header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    padding: 15px 20px;
+    color:white;
+    background: rgba(0,123,255,0.6);
+    backdrop-filter: blur(10px);
   }
 
-  h1 {
-    font-size: 2em;
-    color: #a0e7ff;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  header h1 { font-size:1.7rem; }
+  header button {
+    font-size:1.5rem;
+    background:white;
+    color:#007bff;
+    border:none;
+    border-radius:50%;
+    width:40px; height:40px;
+    cursor:pointer;
   }
 
-  #addArticleBtn {
-    background: linear-gradient(135deg,#00c6ff,#0072ff);
-    border: none;
-    color: white;
-    font-size: 1.5em;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  }
-
-  #addArticleBtn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-  }
-
-  #searchBar {
-    width: 80%;
-    max-width: 450px;
-    margin: 20px auto;
-    padding: 12px;
-    border: none;
-    border-radius: 12px;
-    outline: none;
-    background: rgba(255,255,255,0.2);
-    color: white;
-    font-size: 1em;
-    transition: 0.3s;
-  }
-
-  #searchBar:focus {
-    background: rgba(255,255,255,0.3);
-    box-shadow: 0 0 8px #00c6ff;
-  }
-
-  .article-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 120px;
-  }
-
-  .article-card {
-    width: 90%;
+  .container {
     max-width: 600px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    border-radius: 18px;
-    margin: 12px;
-    padding: 22px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 25px rgba(0,0,0,0.35);
+    margin: 20px auto;
+    flex: 1;
+    padding: 0 10px;
   }
 
-  .article-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    background: rgba(255,255,255,0.15);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  /* Search bar */
+  #search-bar {
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid rgba(255,255,255,0.5);
+    margin-bottom:15px;
+    font-size:1rem;
+    background: rgba(255,255,255,0.2);
+    color: #0a2540;
   }
 
-  #uploadForm {
+  /* Article form */
+  #add-article-form {
     display: none;
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(15px);
-    border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    padding: 25px;
-    width: 90%;
-    max-width: 520px;
-    margin: 40px auto;
-    color: white;
-    text-align: left;
+    margin-bottom: 20px;
   }
 
   input, textarea {
     width: 100%;
-    padding: 12px;
-    margin: 10px 0 18px;
-    border: none;
-    border-radius: 10px;
-    outline: none;
-    background: rgba(255,255,255,0.2);
-    color: white;
-    font-size: 1em;
-    transition: 0.3s;
-  }
-
-  input:focus, textarea:focus {
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid rgba(255,255,255,0.5);
+    font-size:1rem;
     background: rgba(255,255,255,0.3);
-    box-shadow: 0 0 10px #00c6ff;
   }
 
-  button[type="submit"] {
-    background: linear-gradient(135deg,#00c6ff,#0072ff);
-    color: white;
-    font-size: 1.05em;
-    border-radius: 12px;
-    padding: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
+  button.submit-btn, button.delete-btn, .close-btn {
+    cursor:pointer;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    margin-top:8px;
+    font-size:1rem;
   }
 
-  button[type="submit"]:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  button.submit-btn { background:#007bff; color:white; }
+  button.submit-btn:hover { background:#0056b3; }
+  button.delete-btn { background:#ff4d4d; color:white; }
+  button.delete-btn:hover { background:#cc0000; }
+  .close-btn { background:#007bff; color:white; float:right; }
+  .close-btn:hover { background:#0056b3; }
+
+  /* Article titles */
+  #articles .article-title {
+    cursor:pointer;
+    padding:10px;
+    margin-bottom:10px;
+    border-radius:12px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
 
-  #articleView {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.88);
-    color: white;
-    backdrop-filter: blur(14px);
-    overflow-y: auto;
-    padding: 50px 20px;
-    z-index: 999;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+  /* Full article */
+  .article-full {
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:20px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
   }
 
-  #articleView.show {
-    opacity: 1;
-  }
-
-  #articleView .close-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 28px;
-    background: none;
-    border: none;
-    color: #00c6ff;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  #articleView .close-btn:hover {
-    color: #a0e7ff;
-  }
-
-  #deleteArticle {
-    margin-top: 20px;
-    background: #ff4d4d;
-    border-radius: 12px;
-    padding: 12px;
-  }
-
-  #deleteArticle:hover {
-    background: #ff1a1a;
-  }
-
+  /* Footer */
   footer {
-    text-align: center;
-    padding: 18px;
-    background: rgba(255,255,255,0.08);
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    color: #a0e7ff;
+    background: rgba(0,123,255,0.6);
+    color:white;
+    text-align:center;
+    padding:15px 10px;
+    font-size:14px;
+    backdrop-filter: blur(10px);
   }
 
-  a {
-    color: #a0e7ff;
-    text-decoration: underline;
-    cursor: pointer;
+  a.terms-link { color:white; text-decoration:underline; cursor:pointer; }
+
+  /* Terms modal */
+  #terms-modal {
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.8);
+    overflow:auto;
+    padding:50px 20px;
+    box-sizing:border-box;
   }
+  #terms-content {
+    background:white;
+    color:black;
+    padding:20px;
+    border-radius:15px;
+    max-width:800px;
+    margin:auto;
+  }
+  #close-terms {
+    float:right;
+    cursor:pointer;
+    font-size:20px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:5px 10px;
+  }
+
+  @media(max-width:600px){
+    header h1{font-size:1.4rem;}
+    button.submit-btn, button.delete-btn, .close-btn{width:100%;}
+  }
+
 </style>
 </head>
-
 <body>
+
 <header>
   <h1>ThoughtHive</h1>
-  <button id="addArticleBtn">➕</button>
+  <button id="plus-btn">+</button>
 </header>
 
-<input type="text" id="searchBar" placeholder="Search articles...">
+<div class="container glass">
+  <input type="text" id="search-bar" placeholder="Search articles by title...">
 
-<div class="article-list" id="articles"></div>
+  <div id="add-article-form" class="glass">
+    <h2>Add Article</h2>
+    <input type="text" id="article-title-input" placeholder="Article Title" required>
+    <textarea id="article-content-input" placeholder="Write your article here..." rows="4" required></textarea>
+    <input type="text" id="article-author-input" placeholder="Your Name" required>
+    <button class="submit-btn" onclick="postArticle()">Post Article</button>
+  </div>
 
-<form id="uploadForm">
-  <h2>📝 Add New Article</h2>
-  <label>Title:</label>
-  <input type="text" id="title" required>
-  <label>Content:</label>
-  <textarea id="content" rows="6" required></textarea>
-  <label>Your Name:</label>
-  <input type="text" id="author" required>
-  <button type="submit">Post Article</button>
-</form>
-
-<div id="articleView">
-  <button class="close-btn">&times;</button>
-  <h2 id="viewTitle"></h2>
-  <p id="viewContent"></p>
-  <p><strong>Author:</strong> <span id="viewAuthor"></span></p>
-  <button id="deleteArticle">🗑 Delete</button>
+  <div id="articles"></div>
 </div>
 
 <footer>
-  <a id="termsLink">Terms & Conditions</a>
+  <p>&copy; 2025 ThoughtHive | <span class="terms-link" onclick="showTerms()">Terms & Conditions</span></p>
 </footer>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<div id="terms-modal">
+  <div id="terms-content">
+    <button id="close-terms" onclick="closeTerms()">Close ✖</button>
+    <h2>Terms & Conditions</h2>
+    <p>
+      By using ThoughtHive, you agree that the developer is not responsible for user-generated content.
+      Users must respect the rights and safety of others. Misuse, harassment, or illegal activity is not allowed.
+      All content is the responsibility of its creator.
+    </p>
+  </div>
+</div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
   authDomain: "thoughthive-ebf0d.firebaseapp.com",
-  databaseURL: "https://thoughthive-ebf0d-default-rtdb.firebaseio.com",
   projectId: "thoughthive-ebf0d",
   storageBucket: "thoughthive-ebf0d.firebasestorage.app",
   messagingSenderId: "254009291887",
   appId: "1:254009291887:web:b5ce7301fb673ba257499a",
   measurementId: "G-5C2Q4SDZ3Y"
 };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Toggle form
+const plusBtn = document.getElementById('plus-btn');
+const addForm = document.getElementById('add-article-form');
+plusBtn.onclick = () => { addForm.style.display = addForm.style.display === 'none' ? 'block' : 'none'; }
 
-const articlesList = document.getElementById('articles');
-const form = document.getElementById('uploadForm');
-const addArticleBtn = document.getElementById('addArticleBtn');
-const searchBar = document.getElementById('searchBar');
-const articleView = document.getElementById('articleView');
-const closeBtn = document.querySelector('.close-btn');
-const deleteBtn = document.getElementById('deleteArticle');
-let currentArticleId = null;
+// Post article
+async function postArticle() {
+  const title = document.getElementById('article-title-input').value.trim();
+  const content = document.getElementById('article-content-input').value.trim();
+  const author = document.getElementById('article-author-input').value.trim();
+  if(!title || !content || !author){ alert('Fill all fields!'); return; }
+  await db.collection('articles').add({title, content, author, timestamp: firebase.firestore.FieldValue.serverTimestamp()});
+  document.getElementById('article-title-input').value='';
+  document.getElementById('article-content-input').value='';
+  document.getElementById('article-author-input').value='';
+  addForm.style.display='none';
+}
 
-// Toggle Add Form
-addArticleBtn.onclick = () => form.style.display = form.style.display === 'block' ? 'none' : 'block';
+// Load articles
+let allArticles = [];
+db.collection('articles').orderBy('timestamp','desc').onSnapshot(snapshot=>{
+  allArticles=[];
+  snapshot.forEach(doc=>allArticles.push({id:doc.id,...doc.data()}));
+  renderArticles(allArticles);
+});
 
-// Load all articles
-async function loadArticles() {
-  articlesList.innerHTML = '';
-  const querySnapshot = await getDocs(collection(db, "articles"));
-  querySnapshot.forEach((docSnap) => {
-    const data = docSnap.data();
-    const div = document.createElement('div');
-    div.classList.add('article-card');
-    div.innerHTML = `<h3>${data.title}</h3>`;
-    div.onclick = () => openArticle(docSnap.id, data);
-    articlesList.appendChild(div);
+// Render list
+function renderArticles(articles){
+  const articlesDiv=document.getElementById('articles');
+  articlesDiv.innerHTML='';
+  articles.forEach(article=>{
+    const div=document.createElement('div');
+    div.className='article-title';
+    div.textContent=article.title;
+    div.onclick=()=>showFullArticle(article);
+    articlesDiv.appendChild(div);
   });
 }
 
-// Open Article
-function openArticle(id, data) {
-  currentArticleId = id;
-  document.getElementById('viewTitle').textContent = data.title;
-  document.getElementById('viewContent').textContent = data.content;
-  document.getElementById('viewAuthor').textContent = data.author;
-  articleView.style.display = 'block';
-  setTimeout(()=>articleView.classList.add('show'),10);
+// Show full article
+function showFullArticle(article){
+  const articlesDiv=document.getElementById('articles');
+  articlesDiv.innerHTML='';
+  const div=document.createElement('div');
+  div.className='article-full';
+  div.innerHTML=`
+    <button class="close-btn" onclick="closeArticle()">Close</button>
+    <h2>${article.title}</h2>
+    <p>${article.content}</p>
+    <p><strong>By:</strong> ${article.author}</p>
+    <button class="delete-btn" onclick="deleteArticle('${article.id}')">Delete Article</button>
+  `;
+  articlesDiv.appendChild(div);
+  history.pushState({articleOpen:true}, article.title);
 }
 
-// Close Article
-closeBtn.onclick = () => {
-  articleView.classList.remove('show');
-  setTimeout(()=>articleView.style.display='none',300);
-};
+// Close article
+function closeArticle(){
+  renderArticles(allArticles);
+  if(history.state && history.state.articleOpen) history.back();
+}
 
-// Delete Article
-deleteBtn.onclick = async () => {
-  if(currentArticleId){
-    await deleteDoc(doc(db,"articles",currentArticleId));
-    articleView.classList.remove('show');
-    setTimeout(()=>articleView.style.display='none',300);
-    loadArticles();
+// Back button support
+window.addEventListener('popstate',()=>renderArticles(allArticles));
+
+// Delete article
+async function deleteArticle(id){
+  if(confirm('Are you sure you want to delete this article?')){
+    await db.collection('articles').doc(id).delete();
   }
 }
 
-// Post Article
-form.onsubmit = async (e)=>{
-  e.preventDefault();
-  const title = document.getElementById('title').value.trim();
-  const content = document.getElementById('content').value.trim();
-  const author = document.getElementById('author').value.trim();
-  await addDoc(collection(db,"articles"),{title,content,author});
-  form.reset();
-  form.style.display='none';
-  loadArticles();
-}
-
 // Search
-searchBar.oninput = ()=>{
-  const term = searchBar.value.toLowerCase();
-  document.querySelectorAll('.article-card').forEach(card=>{
-    const title = card.querySelector('h3').textContent.toLowerCase();
-    card.style.display = title.includes(term)?'block':'none';
-  });
-}
+document.getElementById('search-bar').addEventListener('input',()=>{
+  const query=document.getElementById('search-bar').value.toLowerCase();
+  renderArticles(allArticles.filter(a=>a.title.toLowerCase().includes(query)));
+});
 
 // Terms
-document.getElementById('termsLink').onclick = ()=>alert(
-  "Terms & Conditions:\n\nBy using ThoughtHive, you agree not to post offensive, illegal, or harmful content. You are responsible for your own posts."
-);
+function showTerms(){ document.getElementById('terms-modal').style.display='block'; }
+function closeTerms(){ document.getElementById('terms-modal').style.display='none'; }
 
-loadArticles();
 </script>
 </body>
-</html>
+</html>    
