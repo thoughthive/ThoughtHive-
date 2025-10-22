@@ -1,4 +1,4 @@
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -16,7 +16,6 @@
     flex-direction: column;
   }
 
-  /* Glassy effect container */
   .page-container {
     flex: 1;
     display: flex;
@@ -28,13 +27,10 @@
   }
 
   header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
+    text-align: center;
     font-size: 2em;
     font-weight: bold;
-    color: #fff;
+    padding: 20px;
     text-shadow: 1px 1px 3px #000;
   }
 
@@ -51,38 +47,6 @@
     border: none;
     margin-bottom: 20px;
     font-size: 1em;
-  }
-
-  #add-article-form {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-    background: rgba(255,255,255,0.2);
-    padding: 15px;
-    border-radius: 15px;
-    backdrop-filter: blur(5px);
-  }
-
-  #add-article-form input, 
-  #add-article-form textarea, 
-  button.submit-btn {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    font-size: 1em;
-  }
-
-  button.submit-btn {
-    background: #007bff;
-    color: #fff;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  button.submit-btn:hover {
-    background: #0056b3;
   }
 
   #articles {
@@ -104,6 +68,18 @@
     background: rgba(255,255,255,0.3);
   }
 
+  button.add-btn {
+    margin-bottom:15px;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:#007bff;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    width:100%;
+  }
+
   footer {
     text-align: center;
     padding: 10px;
@@ -112,7 +88,6 @@
     text-shadow: 1px 1px 2px #000;
   }
 
-  /* Info button bottom-right */
   #info-btn {
     position: fixed;
     bottom: 20px;
@@ -130,7 +105,7 @@
     backdrop-filter: blur(5px);
   }
 
-  /* Modal */
+  /* Terms modal */
   #terms-modal {
     display: none;
     position: fixed;
@@ -164,7 +139,6 @@
     padding:5px 10px;
     cursor:pointer;
   }
-
 </style>
 </head>
 <body>
@@ -172,28 +146,16 @@
 <div class="page-container">
   <header>ThoughtHive</header>
   <div class="container">
-
     <input type="text" id="search-bar" placeholder="Search articles by title...">
-    
-    <button id="show-add-form" style="margin-bottom:15px;padding:10px;border:none;border-radius:10px;background:#007bff;color:white;cursor:pointer;font-weight:bold;">Add Article</button>
-
-    <div id="add-article-form">
-      <input type="text" id="article-title-input" placeholder="Article Title" required>
-      <textarea id="article-content-input" placeholder="Write your article..." rows="4" required></textarea>
-      <input type="text" id="article-author-input" placeholder="Your Name" required>
-      <button class="submit-btn" onclick="postArticle()">Post Article</button>
-    </div>
+    <button class="add-btn" onclick="window.location.href='add-article.html'">Add Article</button>
 
     <div id="articles"></div>
-
   </div>
 </div>
 
-<footer>
-  &copy; 2025 ThoughtHive
-</footer>
+<footer>&copy; 2025 ThoughtHive</footer>
 
-<!-- Info Button -->
+<!-- Info button -->
 <button id="info-btn">i</button>
 
 <!-- Terms Modal -->
@@ -226,36 +188,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Toggle Add Article form
-const showAddBtn = document.getElementById('show-add-form');
-const addForm = document.getElementById('add-article-form');
-showAddBtn.onclick = () => {
-  addForm.style.display = addForm.style.display === 'none' ? 'flex' : 'none';
-}
-
-// Post Article
-async function postArticle() {
-    const title = document.getElementById('article-title-input').value;
-    const content = document.getElementById('article-content-input').value;
-    const author = document.getElementById('article-author-input').value;
-    if(!title || !content || !author){ alert('Fill all fields'); return; }
-
-    try {
-        await db.collection('articles').add({
-            title, content, author,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        alert('Article posted!');
-        document.getElementById('article-title-input').value = '';
-        document.getElementById('article-content-input').value = '';
-        document.getElementById('article-author-input').value = '';
-        addForm.style.display = 'none';
-    } catch(err){
-        alert('Error: '+err.message);
-    }
-}
-
 // Load articles
 let allArticles = [];
 db.collection('articles').orderBy('timestamp','desc').onSnapshot(snapshot=>{
@@ -266,7 +198,6 @@ db.collection('articles').orderBy('timestamp','desc').onSnapshot(snapshot=>{
     renderArticles(allArticles);
 });
 
-// Render article titles
 function renderArticles(articles){
     const div = document.getElementById('articles');
     div.innerHTML = '';
@@ -292,7 +223,6 @@ const closeTerms = document.getElementById('close-terms');
 infoBtn.onclick = ()=>{ termsModal.style.display = 'block'; }
 closeTerms.onclick = ()=>{ termsModal.style.display = 'none'; }
 window.onclick = (event)=>{ if(event.target==termsModal) termsModal.style.display='none'; }
-
 </script>
 </body>
-</html>
+</html>                  
