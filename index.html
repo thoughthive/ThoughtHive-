@@ -1,159 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ThoughtHive</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Poppins", sans-serif; }
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins", sans-serif; }
 
   body {
-    background: radial-gradient(circle at top left, #0f2027, #203a43, #2c5364);
-    color: #fff;
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center/cover;
     min-height: 100vh;
+    color: white;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
   }
 
   header {
-    backdrop-filter: blur(15px);
-    background: rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    padding: 15px 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(12px);
+    padding: 15px 25px;
+    position: sticky;
+    top:0;
+    z-index:10;
   }
 
   header h1 {
     font-size: 1.8rem;
-    letter-spacing: 1px;
-    font-weight: 500;
-  }
-
-  .info-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: white;
-    font-size: 20px;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
   }
 
   .add-btn {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: white;
-    font-size: 26px;
+    background: rgba(255,255,255,0.15);
+    border: none;
     border-radius: 50%;
     width: 50px;
     height: 50px;
+    font-size: 30px;
+    color: white;
     cursor: pointer;
-    backdrop-filter: blur(10px);
-  }
-
-  .category-bar {
     display: flex;
-    overflow-x: auto;
-    gap: 10px;
-    background: rgba(255,255,255,0.05);
-    padding: 10px 20px;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-  }
-
-  .category-bar button {
-    background: rgba(255,255,255,0.1);
-    border: none;
-    padding: 8px 18px;
-    color: white;
-    border-radius: 25px;
-    cursor: pointer;
+    align-items: center;
+    justify-content: center;
     transition: 0.3s;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 20;
+    backdrop-filter: blur(10px);
   }
+  .add-btn:hover { background: rgba(255,255,255,0.3); }
 
-  .category-bar button:hover {
-    background: rgba(255,255,255,0.25);
-  }
-
-  .search-bar {
+  .container {
+    max-width: 900px;
     width: 90%;
-    margin: 20px auto;
-    padding: 12px 15px;
-    border-radius: 25px;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    color: white;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(8px);
-  }
-
-  .articles {
+    margin: 40px auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 0 20px 80px;
   }
+
+  #search-bar {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 1rem;
+  }
+  ::placeholder { color:#ccc; }
 
   .article-card {
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(14px);
     padding: 20px;
-    backdrop-filter: blur(12px);
-    transition: transform 0.2s ease-in-out;
+    border-radius: 18px;
     cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .article-card:hover { transform: scale(1.02); }
+
+  .article-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
   }
 
-  .article-card:hover {
-    transform: translateY(-5px);
+  .article-card p {
+    font-size: 0.95rem;
+    color: #ccc;
   }
 
   footer {
     text-align: center;
-    padding: 20px 10px;
+    padding: 25px 10px;
     color: #aaa;
     font-size: 0.9rem;
-  }
-
-  #terms-modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(10px);
-    color: white;
-    overflow: auto;
-    padding: 40px 20px;
-  }
-
-  #terms-content {
-    background: rgba(255,255,255,0.1);
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 700px;
-    margin: auto;
-  }
-
-  #close-terms {
-    background: rgba(255,255,255,0.3);
-    border: none;
-    color: white;
-    border-radius: 5px;
-    padding: 6px 12px;
-    cursor: pointer;
-    float: right;
   }
 </style>
 </head>
@@ -163,39 +107,18 @@
   <h1>ThoughtHive</h1>
 </header>
 
-<div class="category-bar" id="categoryBar">
-  <button onclick="filterCategory('All')">All</button>
-  <button onclick="filterCategory('Animals')">Animals</button>
-  <button onclick="filterCategory('Cars')">Cars</button>
-  <button onclick="filterCategory('Engineering')">Engineering</button>
-  <button onclick="filterCategory('Technology')">Technology</button>
+<div class="container">
+  <input type="text" id="search-bar" placeholder="Search articles...">
+  <div id="articles"></div>
 </div>
 
-<input type="text" id="searchInput" class="search-bar" placeholder="Search articles...">
-
-<div class="articles" id="articlesList"></div>
-
 <button class="add-btn" onclick="window.location.href='add.html'">+</button>
-<button class="info-btn" onclick="showTerms()">i</button>
 
 <footer>
   <p>&copy; 2025 ThoughtHive | Made with ❤️ by Divyansh</p>
 </footer>
 
-<!-- Terms Modal -->
-<div id="terms-modal">
-  <div id="terms-content">
-    <button id="close-terms" onclick="closeTerms()">✖</button>
-    <h2>Terms & Conditions</h2>
-    <p>
-      Welcome to ThoughtHive. By using this platform, you agree that the developer is not responsible for any content posted by users that may be offensive, harmful, illegal, or exploitative.
-      Users must respect the rights and dignity of every human being and ensure that their posts do not threaten, harass, or harm anyone in any way.
-      The developer disclaims any liability for misuse of this platform.
-    </p>
-  </div>
-</div>
-
-<!-- Firebase SDKs -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
@@ -212,40 +135,39 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-let articles = [];
-db.collection('articles').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-  articles = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  renderArticles(articles);
+let allArticles = [];
+
+// Load articles
+db.collection('articles').orderBy('timestamp','desc').onSnapshot(snapshot => {
+  allArticles = [];
+  snapshot.forEach(doc => allArticles.push({id: doc.id, ...doc.data()}));
+  renderArticles(allArticles);
 });
 
-function renderArticles(list) {
-  const container = document.getElementById('articlesList');
-  container.innerHTML = '';
-  list.forEach(article => {
-    const div = document.createElement('div');
-    div.className = 'article-card';
-    div.innerHTML = `
+// Render articles
+function renderArticles(articles) {
+  const articlesDiv = document.getElementById('articles');
+  articlesDiv.innerHTML = '';
+  articles.forEach(article => {
+    const card = document.createElement('div');
+    card.className = 'article-card';
+    card.innerHTML = `
       <h2>${article.title}</h2>
-      <p style="color:#ccc;">${article.category || 'Uncategorized'}</p>
-      <p>${article.content.substring(0, 120)}...</p>
+      <p>By ${article.author || "Unknown"} • ${article.category || "General"}</p>
     `;
-    div.onclick = () => window.location.href = `article.html?id=${article.id}`;
-    container.appendChild(div);
+    card.onclick = () => {
+      window.location.href = `article.html?id=${article.id}`;
+    };
+    articlesDiv.appendChild(card);
   });
 }
 
-function filterCategory(cat) {
-  if (cat === 'All') renderArticles(articles);
-  else renderArticles(articles.filter(a => a.category === cat));
-}
-
-document.getElementById('searchInput').addEventListener('input', e => {
-  const q = e.target.value.toLowerCase();
-  renderArticles(articles.filter(a => a.title.toLowerCase().includes(q)));
+// Search
+document.getElementById('search-bar').addEventListener('input', () => {
+  const query = document.getElementById('search-bar').value.toLowerCase();
+  const filtered = allArticles.filter(a => a.title.toLowerCase().includes(query));
+  renderArticles(filtered);
 });
-
-function showTerms() { document.getElementById('terms-modal').style.display = 'block'; }
-function closeTerms() { document.getElementById('terms-modal').style.display = 'none'; }
 </script>
 
 </body>
