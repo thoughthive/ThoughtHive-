@@ -3,181 +3,181 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ThoughtHive - Article</title>
+<title>Article - ThoughtHive</title>
 <style>
-body{
-  font-family:'Segoe UI',sans-serif;
-  color:#001f3f;
-  margin:0;
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
-  background-size:cover;
-  background-position:center;
-}
-.container{
-  max-width:600px;
-  margin:80px auto 20px auto;
-  padding:0 10px;
-}
-.container.glass{
-  background: rgba(255,255,255,0.35);
-  backdrop-filter: blur(20px);
-  padding:20px;
-  border-radius:20px;
-  box-shadow:0 10px 40px rgba(0,0,0,0.25);
-}
-h2{margin-bottom:10px;font-size:2rem;color:#001f3f;}
-#article-content{color:#001f3f;line-height:1.6;margin-bottom:15px;}
-#back-btn{
-  cursor:pointer;
-  background:#007bff;
-  color:white;
-  border:none;
-  padding:8px 12px;
-  border-radius:15px;
-  margin-bottom:10px;
-}
-#back-btn:hover{background:#0056b3;}
-.comment-inputs{
-  margin-bottom:20px;
-}
-.comment-inputs input,
-.comment-inputs textarea{
-  width:100%;
-  padding:12px;
-  margin:6px 0;
-  border-radius:15px;
-  border:none;
-  background: rgba(255,255,255,0.9);
-  color:#001f3f;
-  font-size:1rem;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-  resize:vertical;
-}
-.comment-inputs textarea{ max-height:100px; overflow-y:auto; }
-button.comment-btn{
-  width:100%;
-  background:#007bff;
-  color:white;
-  border:none;
-  padding:12px;
-  border-radius:15px;
-  cursor:pointer;
-  margin-top:6px;
-  font-size:1rem;
-  transition:0.2s;
-}
-button.comment-btn:hover{background:#0056b3; transform:scale(1.03);}
-#comments{margin-top:15px;}
-.comment{
-  background: rgba(255,255,255,0.25);
-  padding:10px;
-  border-radius:15px;
-  margin-bottom:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  backdrop-filter: blur(8px);
-  color:#001f3f;
-}
-button.delete-comment{
-  background:#ff4d4d;
-  color:white;
-  border:none;
-  padding:5px 10px;
-  border-radius:10px;
-  cursor:pointer;
-  transition:0.2s;
-}
-button.delete-comment:hover{background:#cc0000;}
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  .article-box {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 700px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+  }
+
+  h1 { margin-top:0; text-align:center; text-shadow: 1px 1px 3px #000; }
+  p { line-height:1.6; }
+
+  #comments-section { margin-top: 30px; }
+  .comment-box {
+    background: rgba(255,255,255,0.2);
+    padding: 10px 15px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+  }
+
+  .comment-box p { margin: 5px 0; color:#fff; }
+  .comment-box strong { font-weight:bold; }
+
+  input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    font-size: 1em;
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  button {
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 5px;
+    font-size: 1em;
+  }
+
+  button.submit-btn { background:#007bff; color:white; width:100%; }
+  button.submit-btn:hover { background:#0056b3; }
+
+  button.delete-btn { background:#ff4d4d; color:white; width:100%; }
+  button.delete-btn:hover { background:#cc0000; }
+
+  button.back-btn {
+    background:#17a2b8;
+    color:white;
+    width:100%;
+    margin-bottom:15px;
+  }
+  button.back-btn:hover { background:#117a8b; }
 </style>
 </head>
 <body>
 
-<div class="container glass">
-  <button id="back-btn" onclick="history.back()">← Back</button>
-  <h2 id="article-title"></h2>
+<div class="article-box">
+  <button class="back-btn" onclick="window.location.href='index.html'">← Back to Home</button>
+  <h1 id="article-title">Loading...</h1>
   <p id="article-content"></p>
   <p><strong>By:</strong> <span id="article-author"></span></p>
+  <button id="delete-btn" class="delete-btn" style="display:none;" onclick="deleteArticle()">Delete Article</button>
 
-  <hr>
-  <h3>Comments</h3>
-  <div class="comment-inputs">
-    <input type="text" id="comment-name" placeholder="Your name" required>
-    <textarea id="comment-text" rows="3" placeholder="Write a comment..." required></textarea>
-    <button class="comment-btn" onclick="postComment()">Post Comment</button>
+  <div id="comments-section">
+    <h3>Comments</h3>
+    <input type="text" id="comment-author" placeholder="Your Name">
+    <textarea id="comment-text" placeholder="Write your comment"></textarea>
+    <button class="submit-btn" onclick="postComment()">Post Comment</button>
+    <div id="comments-list"></div>
   </div>
-
-  <div id="comments"></div>
 </div>
 
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
-// Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
-  authDomain: "thoughthive-ebf0d.firebaseapp.com",
-  projectId: "thoughthive-ebf0d",
-  storageBucket: "thoughthive-ebf0d.firebasestorage.app",
-  messagingSenderId: "254009291887",
-  appId: "1:254009291887:web:b5ce7301fb673ba257499a",
-  measurementId: "G-5C2Q4SDZ3Y"
+    apiKey: "AIzaSyAQ4oeDRpMPkpxtcxq-xe7qRwUfIrhUztw",
+    authDomain: "thoughthive-ebf0d.firebaseapp.com",
+    projectId: "thoughthive-ebf0d",
+    storageBucket: "thoughthive-ebf0d.firebasestorage.app",
+    messagingSenderId: "254009291887",
+    appId: "1:254009291887:web:b5ce7301fb673ba257499a",
+    measurementId: "G-5C2Q4SDZ3Y"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Get article ID from URL
 const params = new URLSearchParams(window.location.search);
 const articleId = params.get('id');
 
-// Load article
-db.collection('articles').doc(articleId).get().then(doc=>{
-  if(doc.exists){
+const articleTitleEl = document.getElementById('article-title');
+const articleContentEl = document.getElementById('article-content');
+const articleAuthorEl = document.getElementById('article-author');
+const deleteBtn = document.getElementById('delete-btn');
+
+async function loadArticle() {
+    const doc = await db.collection('articles').doc(articleId).get();
+    if(!doc.exists){ alert('Article not found'); return; }
     const data = doc.data();
-    document.getElementById('article-title').innerText = data.title;
-    document.getElementById('article-content').innerText = data.content;
-    document.getElementById('article-author').innerText = data.author;
-    
-    // Dynamic background based on title
-    document.body.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)), url('https://source.unsplash.com/1200x800/?${encodeURIComponent(data.title)}')`;
-  } else { alert('Article not found'); history.back(); }
-});
+    articleTitleEl.textContent = data.title;
+    articleContentEl.textContent = data.content;
+    articleAuthorEl.textContent = data.author;
+
+    // Show delete button only if you are the author (replace YOUR_NAME with your author name)
+    if(data.author === 'YOUR_NAME'){ deleteBtn.style.display = 'block'; }
+}
+
+loadArticle();
+
+// Delete Article
+async function deleteArticle(){
+    if(confirm('Are you sure you want to delete this article?')){
+        await db.collection('articles').doc(articleId).delete();
+        alert('Article deleted!');
+        window.location.href='index.html';
+    }
+}
 
 // Comments
-function loadComments(){
-  db.collection('articles').doc(articleId).collection('comments')
-    .orderBy('timestamp','asc')
-    .onSnapshot(snapshot=>{
-      const commentsDiv=document.getElementById('comments');
-      commentsDiv.innerHTML='';
-      snapshot.forEach(doc=>{
-        const data=doc.data();
-        const div=document.createElement('div');
-        div.className='comment';
-        div.innerHTML=`<span><strong>${data.name}:</strong> ${data.text}</span>
-                       <button class="delete-comment" onclick="deleteComment('${doc.id}')">Delete</button>`;
-        commentsDiv.appendChild(div);
-      });
+const commentsList = document.getElementById('comments-list');
+
+async function loadComments(){
+    db.collection('articles').doc(articleId).collection('comments')
+      .orderBy('timestamp','asc')
+      .onSnapshot(snapshot=>{
+        commentsList.innerHTML='';
+        snapshot.forEach(doc=>{
+            const c = doc.data();
+            const div = document.createElement('div');
+            div.className = 'comment-box';
+            div.innerHTML = `<strong>${c.author}:</strong><p>${c.text}</p>`;
+            commentsList.appendChild(div);
+        });
     });
 }
+
 loadComments();
 
-function postComment(){
-  const name=document.getElementById('comment-name').value.trim();
-  const text=document.getElementById('comment-text').value.trim();
-  if(!name||!text){ alert('Fill all fields!'); return; }
-  db.collection('articles').doc(articleId).collection('comments')
-    .add({name,text,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
-  document.getElementById('comment-name').value='';
-  document.getElementById('comment-text').value='';
-}
-
-function deleteComment(commentId){
-  if(confirm('Delete this comment?')){
-    db.collection('articles').doc(articleId).collection('comments').doc(commentId).delete();
-  }
+async function postComment(){
+    const author = document.getElementById('comment-author').value.trim();
+    const text = document.getElementById('comment-text').value.trim();
+    if(!author || !text){ alert('Fill all fields'); return; }
+    await db.collection('articles').doc(articleId).collection('comments').add({
+        author, text,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    document.getElementById('comment-author').value='';
+    document.getElementById('comment-text').value='';
 }
 </script>
 
