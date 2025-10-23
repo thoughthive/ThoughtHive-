@@ -4,32 +4,33 @@
   <!-- Homepage -->
   <url>
     <loc>https://thoughthive.github.io/ThoughtHive-/</loc>
-    <lastmod>2025-10-22</lastmod>
+    <lastmod>2025-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Add Article page -->
+  <!-- Article Submission Page -->
   <url>
     <loc>https://thoughthive.github.io/ThoughtHive-/add.html</loc>
-    <lastmod>2025-10-22</lastmod>
+    <lastmod>2025-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Article template page (replace ID for each real article) -->
+  <!-- Placeholder for Articles -->
   <url>
     <loc>https://thoughthive.github.io/ThoughtHive-/article.html?id=ARTICLE_ID_1</loc>
-    <lastmod>2025-10-22</lastmod>
+    <lastmod>2025-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://thoughthive.github.io/ThoughtHive-/article.html?id=ARTICLE_ID_2</loc>
-    <lastmod>2025-10-22</lastmod>
+    <lastmod>2025-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Add more articles here with their Firestore IDs -->
+  <!-- Add more articles here as you publish them -->
+
 </urlset>
